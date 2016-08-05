@@ -6,7 +6,7 @@
 #####2.DocFilter
 文本分类
 
-#####3.participle
+#####3.wordcut
 中文分词，词频统计
 
 #####4.hack
