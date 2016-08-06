@@ -1,16 +1,25 @@
 import os
 import re
+import chardet
+
+def get_chardet(filename):
+    data=open(filename,'rb').read()
+    coding=chardet.detect(data)
+    return coding['encoding']
 
 def wordlabel(filename,limitnum,delwords,colors):
-    text=open('data/'+filename,'r',encoding='utf-8').read()
+    encoding=get_chardet('data/'+filename)
+    if encoding=='GB2312':
+        encoding='GBK'
+    text=open('data/'+filename,'r',encoding=encoding).read()
     words=wordcut(text)
-    html='<!DOCTYPE html>\n<html>\n<head>\n<meta charset="utf-8">\n<title>{title}</title>\n</head>\n<body>{body}\n</body>\n</html>'
+    html='<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta charset="utf-8">\r\n<title>{title}</title>\r\n</head>\r\n<body>{body}\r\n</body>\r\n</html>'
     body=''
     textline='<p>{line}</p>'
     wordcolor='<font color="{color}">{word}</font>'
-    points=['.',',','?','!',"'",'《','》',':',';','"']
-    for line in open('data/'+filename,'r',encoding='utf-8'):
-        body+=textline.format(line=line)+'\n'
+    points=['.',',','?','!',"'",'《','》',':',';','"','\r\n','\n']
+    for line in open('data/'+filename,'r',encoding=encoding):
+        body+=textline.format(line=line)+'\r\n'
     for word in words:
         if word in delwords:
             continue
@@ -35,14 +44,20 @@ def wordlabel(filename,limitnum,delwords,colors):
     return html.format(body=body,title=filename.replace('.txt',''))
 
 def load_deletewords():
+    encoding=get_chardet('settings/deletewords')
+    if encoding='GB2312':
+        encoding='GBK'
     deletewords=[]
-    for line in open('settings/deletewords','r',encoding='utf-8'):
+    for line in open('settings/deletewords','r',encoding=encoding):
         deletewords.append(line.replace('\r','').replace('\n','').replace(' ',''))
     return deletewords
 
 def loadcolor():
+    encoding=get_chardet('settings/color')
+    if encoding='GB2312':
+        encoding='GBK'
     colors={}
-    for line in open('settings/color','r',encoding='utf-8'):
+    for line in open('settings/color','r',encoding=encoding):
         line=line.replace('\r','').replace('\n','').replace(' ','')
         try:
             colors[int(line.split('-')[0])]=line.split('-')[-1]
