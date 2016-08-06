@@ -1,6 +1,7 @@
 import os
 import re
 import chardet
+import time
 
 def get_chardet(filename):
     data=open(filename,'rb').read()
@@ -45,7 +46,7 @@ def wordlabel(filename,limitnum,delwords,colors):
 
 def load_deletewords():
     encoding=get_chardet('settings/deletewords')
-    if encoding='GB2312':
+    if encoding=='GB2312':
         encoding='GBK'
     deletewords=[]
     for line in open('settings/deletewords','r',encoding=encoding):
@@ -54,7 +55,7 @@ def load_deletewords():
 
 def loadcolor():
     encoding=get_chardet('settings/color')
-    if encoding='GB2312':
+    if encoding=='GB2312':
         encoding='GBK'
     colors={}
     for line in open('settings/color','r',encoding=encoding):
@@ -100,4 +101,7 @@ def main():
             f=open('result/%s.html'%(filename.replace('.txt','')),'w',encoding='utf-8')
             f.write(html)
             f.close()
+            print(filename,'ok')
+    time.sleep(50)
+    
 main()

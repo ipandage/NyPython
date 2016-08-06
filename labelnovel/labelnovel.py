@@ -1,14 +1,15 @@
 import os
 import re
 import chardet
+import time
 
 def get_chardet(filename):
-    data=open('data/'+filename,'rb').read()
+    data=open(filename,'rb').read()
     coding=chardet.detect(data)
     return coding['encoding']
 
 def wordlabel(filename,colors):
-    encoding=get_chardet(filename)
+    encoding=get_chardet('data/'+filename)
     if encoding=='GB2312':
         encoding='GBK'
     text=open('data/'+filename,'r',encoding=encoding).read()
@@ -24,8 +25,11 @@ def wordlabel(filename,colors):
     return html.format(body=body,title=filename.replace('.txt',''))
 
 def loadcolor():
+    encoding=get_chardet('settings/color')
+    if encoding=='GB2312':
+        encoding='GBK'
     colors={}
-    for line in open('settings/color','r',encoding='utf-8'):
+    for line in open('settings/color','r',encoding=encoding):
         line=line.replace('\r','').replace('\n','').replace(' ','')
         try:
             colors[line.split('-')[0]]=line.split('-')[-1]
@@ -45,4 +49,6 @@ def main():
             f=open('result/%s.html'%(filename.replace('.txt','')),'w',encoding='utf-8')
             f.write(html)
             f.close()
+            print(filename,'ok')
+    time.sleep(50)
 main()
