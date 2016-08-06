@@ -17,3 +17,9 @@
 
 #####6.proxyip
 获取免费高匿代理IP
+
+#####7.labelword
+将txt文档转成html，并用不同颜色标记不同词频的单词
+
+#####8.labelnovel
+不同颜色标注小说人物
