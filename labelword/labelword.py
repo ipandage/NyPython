@@ -17,7 +17,7 @@ def wordlabel(filename,limitnum,delwords,colors):
     html='<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta charset="utf-8">\r\n<title>{title}</title>\r\n</head>\r\n<body>{body}\r\n</body>\r\n</html>'
     body=''
     textline='<p>{line}</p>'
-    wordcolor='<font color="{color}">{word}</font>'
+    wordcolor='<span style="background:{color}">{word}</span>'
     points=['.',',','?','!',"'",'《','》',':',';','"','\r\n','\n']
     for line in open('data/'+filename,'r',encoding=encoding):
         body+=textline.format(line=line)+'\r\n'
@@ -103,5 +103,5 @@ def main():
             f.close()
             print(filename,'ok')
     time.sleep(50)
-    
+
 main()
