@@ -1,4 +1,5 @@
-####Python写的一些小工具
+#
+##Python写的一些小工具
 
 #####1.CaptchaRecognise
 针对简单的数字字母验证码做识别
@@ -17,7 +18,7 @@
 
 #####6.proxyip
 获取免费高匿代理IP
-
+示例：http://www.nyloner.cn:8003/?page=1&num=3
 #####7.labelword
 将txt文档转成html，并用不同颜色标记不同词频的单词
 
