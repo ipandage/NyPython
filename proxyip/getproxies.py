@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import sqlite3
 import threading
 import time
+from mimvp.mimvpproxy import mimvp_proxy
 
 headers = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -126,6 +127,15 @@ def get_from_66ip():
         for work in threadings:
             work.start()
 
+def get_from_mimvp():
+    iplist=mimvp_proxy()
+    threadings=[]
+    for ip in iplist:
+        work=IsEnable(ip)
+        work.setDaemon(True)
+        threadings.append(work)
+    for work in threadings:
+        work.start()
 
 if __name__ == '__main__':
     conn=sqlite3.connect('sqldb.db')
@@ -150,4 +160,8 @@ if __name__ == '__main__':
             get_from_66ip()
         except:
             print('get_from_66ip failed')
-        time.sleep(180)
+        try:
+            get_from_mimvp()
+        except:
+            print('get_from_mimvp failed')
+        time.sleep(300)
