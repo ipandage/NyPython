@@ -110,6 +110,22 @@ def get_from_kxdaili():
             for work in threadings:
                 work.start()
 
+def get_from_66ip():
+    urls=['http://www.66ip.cn/nmtq.php?getnum=600&isp=0&anonymoustype=3&start=&ports=&export=&ipaddress=&area=0&proxytype=0&api=66ip']
+    for pageurl in urls:
+        try:
+            html=requests.get(pageurl,headers=headers,timeout=30).text
+        except:
+            continue
+        iplist=re.findall('\d+\.\d+\.\d+\.\d+:\d+',html)
+        threadings=[]
+        for ip in iplist:
+            work=IsEnable(ip)
+            work.setDaemon(True)
+            threadings.append(work)
+        for work in threadings:
+            work.start()
+
 
 if __name__ == '__main__':
     conn=sqlite3.connect('sqldb.db')
@@ -130,4 +146,8 @@ if __name__ == '__main__':
             get_from_xicidaili()
         except:
             print('get_from_xicidaili failed')
+        try:
+            get_from_66ip()
+        except:
+            print('get_from_66ip failed')
         time.sleep(180)
