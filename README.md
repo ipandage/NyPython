@@ -27,4 +27,3 @@
 
 #####9.NeuralNetworks
 神经网络实现字符识别
-实验楼课程 https://www.shiyanlou.com/courses/593
