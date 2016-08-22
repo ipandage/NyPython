@@ -18,7 +18,6 @@
 
 #####6.proxyip
 获取免费高匿代理IP
-示例：http://www.nyloner.cn:8003/?page=1&num=3
 爬取ipcn,西刺代理，开心代理，米扑代理等网站的免费代理，筛选出可用的代理ip
 
 #####7.labelword
