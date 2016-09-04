@@ -3,6 +3,9 @@ import json
 import json
 from bs4 import BeautifulSoup
 import base64
+import time
+import pdfkit
+
 
 headers = {
     'Host':"yuedu.163.com",
@@ -52,13 +55,39 @@ def article_content(bookid,articleUuid,bigContentId=''):
     return article.decode()
 
 def download(book):
+    html='''<!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <title></title>
+        </head>
+        <body>
+            {body}
+        </body>
+    </html>'''
     book_text=''
     for page in book['pages']:
-        book_text+=article_content(book['bookid'],page['articleUuid'],page['bigContentId'])+'\n'
-        print(page['title'])
-    with open('book.html','w') as f:
-        f.write(book_text)
+        book_text+=article_content(book['bookid'],page['articleUuid'],page['bigContentId'])+'<br><br><br>\n'
+        time.sleep(0.2)
+    html=html.format(body=book_text)
+    filename=book['title']+'.pdf'
+    html2pdf(html,filename)
+
+def html2pdf(html,filename):
+    options={
+        'page-size': 'Letter',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+        'encoding': "UTF-8",
+        'no-outline': None
+    }
+    pdfkit.from_string(html,filename,options=options)
 
 if __name__ == '__main__':
-    book=get_book('d050cae1f7cf4137ac28109827cbe90b_4')
-    download(book)
+    books=book_list('http://yuedu.163.com/book/category/category/800/1_0_1')
+    for book in books:
+        book=get_book(book['bookid'])
+        download(book)
+        print(book['title'],'ok')
