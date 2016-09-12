@@ -129,7 +129,12 @@ class BaiduMap(QtWidgets.QMainWindow,Ui_MainWindow):
             self.listWidget.addItem(item[2])
 
     def write_to_excel(self):
-        pass
+        excel=openpyxl.Workbook(write_only=True)
+        sheet=excel.create_sheet('table')
+        for item in self.result:
+            sheet.append(item)
+        filename=time.strftime("%Y%m%d_%H%M%S")+'.xlsx'
+        excel.save(filename)
 
     def insert2list(self,crawl_result):
         for item in crawl_result:
@@ -182,6 +187,7 @@ class Crawler(QtCore.QThread):
                     except:
                         item.append('')
                 self.result.append(item)
+            print(page)
             page+=1
             time.sleep(0.5)
         self._finish_signal.emit(self.result)
