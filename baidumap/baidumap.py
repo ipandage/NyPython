@@ -50,7 +50,13 @@ class Ui_MainWindow(object):
         self.save_pushButton_2 = QtWidgets.QPushButton(self.centralWidget)
         self.save_pushButton_2.setGeometry(QtCore.QRect(590, 400, 231, 71))
         #self.save_pushButton_2.setStyleSheet("background:rgb(255, 213, 127)")
+        self.label_5 = QtWidgets.QLabel(self.centralWidget)
+        self.label_5.setGeometry(QtCore.QRect(530, 500,231, 71))
+        self.label_5.setObjectName("label_5")
         self.save_pushButton_2.setObjectName("save_pushButton_2")
+        self.label_rate=QtWidgets.QLabel(self.centralWidget)
+        self.label_rate.setGeometry(QtCore.QRect(590, 500, 231, 71))
+        self.label_rate.setObjectName("label_rate")
         self.clear_button = QtWidgets.QPushButton(self.centralWidget)
         self.clear_button.setGeometry(QtCore.QRect(530, 615, 51, 25))
         self.clear_button.setObjectName("clear_button")
@@ -76,6 +82,7 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "城市："))
         self.label_3.setText(_translate("MainWindow", "省份："))
         self.label_4.setText(_translate("MainWindow", "关键词："))
+        self.label_5.setText(_translate("MainWindow", "进度："))
         self.crawl_pushButton.setText(_translate("MainWindow", "采集"))
         self.save_pushButton_2.setText(_translate("MainWindow", "导出"))
         self.clear_button.setText(_translate("MainWindow", "清空"))
@@ -136,6 +143,9 @@ class BaiduMap(QtWidgets.QMainWindow,Ui_MainWindow):
         filename=time.strftime("%Y%m%d_%H%M%S")+'.xlsx'
         excel.save(filename)
 
+    def rate_of_advance(self,string):
+        self.label_rate.setText(string)
+
     def insert2list(self,crawl_result):
         for item in crawl_result:
             self.result.append(item)
@@ -150,10 +160,12 @@ class BaiduMap(QtWidgets.QMainWindow,Ui_MainWindow):
         citycode=self.cities[city]
         self.crawler=Crawler(keyword,province,city,citycode)
         self.crawler._finish_signal.connect(self.insert2list)
+        self.crawler._page_ok_signal.connect(self.rate_of_advance)
         self.crawler.start()
 
 class Crawler(QtCore.QThread):
     _finish_signal=QtCore.pyqtSignal(list)
+    _page_ok_signal=QtCore.pyqtSignal(str)
     def __init__(self,keyword,province,city,code):
         super(Crawler,self).__init__()
         self.keyword=keyword
@@ -187,9 +199,10 @@ class Crawler(QtCore.QThread):
                     except:
                         item.append('')
                 self.result.append(item)
-            print(page)
+            self._page_ok_signal.emit(self.city+' --- Page '+str(page)+' --- ok')
             page+=1
             time.sleep(0.5)
+        self._page_ok_signal.emit(self.city+' 完成')
         self._finish_signal.emit(self.result)
 
     def search(self,keyword,citycode,page):
