@@ -81,7 +81,7 @@ def get_phone(item,session):
     configuration=[]
     try:
         for li in soup.find('div',{'class':'xq_main_01_jage'}).find_all('li'):
-            configuration.append(str(li).replace('\n','').replace('\t',''))
+            configuration.append(li.get_text().replace('\n','').replace('\t',''))
     except:
         pass
     for div in table:
@@ -165,6 +165,7 @@ def update():
             item=get_phone(phone,session)
         except:
             print(phone['goodsNum'],phone['goodsName'],'failed')
+        print(item['configuration'])
         result.append(item)
         print(phone['goodsNum'],phone['goodsName'],'ok')
     insert_into_mysql(result,'mainsite_phone')
