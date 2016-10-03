@@ -17,19 +17,19 @@
 						<ul>
 							<li><a href="index.html">主页</a></li>
 							<li>
-								<a href="items.html" class="icon fa-angle-down">智能机</a>
+								<a href="smartphone.html" class="icon fa-angle-down">智能机</a>
 								<ul>
-									<li><a href="items.html?brand=苹果">苹果</a></li>
-									<li><a href="contact.html">三星</a></li>
-									<li><a href="elements.html">华为</a></li>
+									{% for brand in phone_brands %}
+									<li><a href="smartphone.html?brand={{ brand }}"></a>{{ brand }}</li>
+									{% endfor %}
 								</ul>
 							</li>
 							<li>
-								<a href="" class="icon fa-angle-down">平板</a>
+								<a href="tablets.html" class="icon fa-angle-down">平板</a>
 								<ul>
-									<li><a href="generic.html">苹果</a></li>
-									<li><a href="contact.html">三星</a></li>
-									<li><a href="elements.html">华为</a></li>
+									{% for brand in tablet_brands %}
+									<li><a href="tablets.html?brand={{ brand }}"></a>{{ brand }}</li>
+									{% endfor %}
 								</ul>
 							</li>
 							<li><a href="">联系我们</a></li>
@@ -41,6 +41,14 @@
 
 			<!-- Main -->
 				<section id="main" class="container">
+					<div class="box">
+						<h3>配置</h3>
+						<ul>
+							{% for item in configuration %}
+							<li>{{ item }}</li>
+							{% endfor %}
+						</ul>
+					</div>
 					<hr>
                     <div class="box">
 						<h3>价格</h3>
@@ -60,6 +68,7 @@
                             </tr>
                         </thead>
                         <tbody>
+							{% for item in items %}
                             <tr>
                                 <td>Something</td>
                                 <td>Ante turpis integer aliquet porttitor.</td>
