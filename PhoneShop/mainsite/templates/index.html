@@ -12,28 +12,28 @@
 		<div id="page-wrapper">
 			<!-- Header -->
 				<header id="header" class="alt">
-					<h1><a href="index.html">德兴手机批发报价</a></h1>
+					<h1><a href="index">德兴手机批发报价</a></h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="index.html">主页</a></li>
+							<li><a href="index">主页</a></li>
 							<li>
-								<a href="smartphone.html" class="icon fa-angle-down">智能机</a>
+								<a href="smartphone" class="icon fa-angle-down">智能机</a>
 								<ul>
 									{% for brand in phone_brands %}
-									<li><a href="smartphone.html?brand={{ brand }}"></a>{{ brand }}</li>
+									<li><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
 									{% endfor %}
 								</ul>
 							</li>
 							<li>
-								<a href="tablets.html" class="icon fa-angle-down">平板</a>
+								<a href="tablets" class="icon fa-angle-down">平板</a>
 								<ul>
 									{% for brand in tablet_brands %}
-									<li><a href="tablets.html?brand={{ brand }}"></a>{{ brand }}</li>
+									<li><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>
 									{% endfor %}
 								</ul>
 							</li>
-							<li><a href="">联系我们</a></li>
-							<li><a href="">关于</a></li>
+							<li><a href="contact">联系我们</a></li>
+							<li><a href="about">关于</a></li>
 							<!-- <li><a href="#" class="button">Sign Up</a></li> -->
 						</ul>
 					</nav>
@@ -48,65 +48,26 @@
 			<!-- Main -->
 				<section id="main" class="container">
 
-					<section class="box special">
-						<header class="major">
-							<h2>Introducing the ultimate mobile app
-							<br />
-							for doing stuff with your phone</h2>
-							<p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc ornare<br />
-							adipiscing nunc adipiscing. Condimentum turpis massa.</p>
-						</header>
-						<span class="image featured"><img src="../static/images/pic01.jpg" alt="" /></span>
-					</section>
-
-					<section class="box special features">
-						<div class="features-row">
-							<section>
-								<span class="icon major fa-bolt accent2"></span>
-								<h3>Magna etiam</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-							</section>
-							<section>
-								<span class="icon major fa-area-chart accent3"></span>
-								<h3>Ipsum dolor</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-							</section>
-						</div>
-						<div class="features-row">
-							<section>
-								<span class="icon major fa-cloud accent4"></span>
-								<h3>Sed feugiat</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-							</section>
-							<section>
-								<span class="icon major fa-lock accent5"></span>
-								<h3>Enim phasellus</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-							</section>
-						</div>
-					</section>
-
 					<div class="row">
 						<div class="6u 12u(narrower)">
 
 							<section class="box special">
 								<span class="image featured"><img src="../static/images/pic02.jpg" alt="" /></span>
-								<h3>Sed lorem adipiscing</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+								<h3>智能机</h3>
+								<p>品牌热门手机</p>
 								<ul class="actions">
-									<li><a href="#" class="button alt">Learn More</a></li>
+									<li><a href="smartphone" class="button alt">查看更多</a></li>
 								</ul>
 							</section>
 
 						</div>
 						<div class="6u 12u(narrower)">
-
 							<section class="box special">
 								<span class="image featured"><img src="../static/images/pic03.jpg" alt="" /></span>
-								<h3>Accumsan integer</h3>
-								<p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
-								<ul class="actions">
-									<li><a href="#" class="button alt">Learn More</a></li>
+								<h3>平板</h3>
+								<p>品牌热门平板</p>
+								<ul class="tablets">
+									<li><a href="" class="button alt">查看更多</a></li>
 								</ul>
 							</section>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>德兴手机批发报价</title>
+		<title>{{ title }}-德兴手机批发报价</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="../static/assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -12,28 +12,28 @@
 		<div id="page-wrapper">
 			<!-- Header -->
 				<header id="header">
-					<h1><a href="index.html">德兴手机批发报价</a></h1>
+					<h1><a href="index">德兴手机批发报价</a></h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="index.html">主页</a></li>
+							<li><a href="index">主页</a></li>
 							<li>
-								<a href="smartphone.html" class="icon fa-angle-down">智能机</a>
+								<a href="smartphone" class="icon fa-angle-down">智能机</a>
 								<ul>
 									{% for brand in phone_brands %}
-									<li><a href="smartphone.html?brand={{ brand }}"></a>{{ brand }}</li>
+									<li><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
 									{% endfor %}
 								</ul>
 							</li>
 							<li>
-								<a href="tablets.html" class="icon fa-angle-down">平板</a>
+								<a href="tablets" class="icon fa-angle-down">平板</a>
 								<ul>
 									{% for brand in tablet_brands %}
-									<li><a href="tablets.html?brand={{ brand }}"></a>{{ brand }}</li>
+									<li><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>
 									{% endfor %}
 								</ul>
 							</li>
-							<li><a href="">联系我们</a></li>
-							<li><a href="about.html">关于</a></li>
+							<li><a href="contact">联系我们</a></li>
+							<li><a href="about">关于</a></li>
 							<!-- <li><a href="#" class="button">Sign Up</a></li> -->
 						</ul>
 					</nav>
@@ -42,6 +42,7 @@
 			<!-- Main -->
 				<section id="main" class="container">
 					<div class="box">
+						<h4>{{ title }}</h4>
 						<h3>配置</h3>
 						<ul>
 							{% for item in configuration %}
@@ -68,37 +69,13 @@
                             </tr>
                         </thead>
                         <tbody>
-							{% for item in items %}
+							{% for item in products %}
                             <tr>
-                                <td>Something</td>
-                                <td>Ante turpis integer aliquet porttitor.</td>
-                                <td>29.99</td>
-                                <td><a href="#">查看更多</a></td>
+								{% for text in item %}
+                                <td>{{ text }}</td>
+                                {% endfor %}
                             </tr>
-                            <tr>
-                                <td>Nothing</td>
-                                <td>Vis ac commodo adipiscing arcu aliquet.</td>
-                                <td>19.99</td>
-                                <td><a href="#">查看更多</a></td>
-                            </tr>
-                            <tr>
-                                <td>Something</td>
-                                <td> Morbi faucibus arcu accumsan lorem.</td>
-                                <td>29.99</td>
-                                <td><a href="#">查看更多</a></td>
-                            </tr>
-                            <tr>
-                                <td>Nothing</td>
-                                <td>Vitae integer tempus condimentum.</td>
-                                <td>19.99</td>
-                                <td><a href="#">查看更多</a></td>
-                            </tr>
-                            <tr>
-                                <td>Something</td>
-                                <td>Ante turpis integer aliquet porttitor.</td>
-                                <td>29.99</td>
-                                <td><a href="#">查看更多</a></td>
-                            </tr>
+							{% endfor %}
                         </tbody>
                     </table>
                     </div>
@@ -106,7 +83,9 @@
 					<div class="box">
 						<h3>产品详情</h3>
 						<span class="image fit">
-							<img src="http://img01.taobaocdn.com/imgextra/i1/1587267179/TB2ToH8bVXXXXXfXpXXXXXXXXXX_!!1587267179.jpg" alt="" />
+							{% for img in des %}
+							<img src="{{ img }}" alt="" />
+							{% endfor %}
 						</span>
 					</div>
 				</section>

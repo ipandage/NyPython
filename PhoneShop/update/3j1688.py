@@ -106,6 +106,56 @@ def get_phone(item,session):
     item['configuration']=configuration
     return item
 
+def get_tablets(session):
+    keys=['小米', '华为', '荣耀', '苹果',  '三星','诺基亚', '联想', '微软', '台电', '酷比','亚马逊']
+    tablets=[]
+    for key in keys:
+        try:
+            html=session.post('http://www.3j1688.com/goods/pb/bjdjsonByBrand.html',data={'brandName':key},headers=get_headers()).text
+            data=json.loads(html)['data']
+            for item in data:
+                item['brand']=key
+                if key=='荣耀':
+                    item['brand']='华为'
+                tablets.append(item)
+        except:
+            continue
+        print(key)
+    return tablets
+
+def get_tablet(item,session):
+    html=session.get('http://www.3j1688.com/goods/detail/%s.html'%item['goodsNum'],headers=get_headers()).text
+    soup=BeautifulSoup(html,'lxml').find('div',id='xq_mian')
+    table=soup.find('div',{'class':'xq_main_02_let_03'}).find_all('div',{'class':'xq_main_02_let_02'})
+    products=[]
+    configuration=[]
+    try:
+        for li in soup.find('div',{'class':'xq_main_01_jage'}).find_all('li'):
+            configuration.append(li.get_text().replace('\n','').replace('\t',''))
+    except:
+        pass
+    for div in table:
+        try:
+            tds=div.find('tr').find_all('td')
+            phone_infor=[]
+            for td in tds[1:6]:
+                try:
+                    phone_infor.append(td.get_text())
+                except:
+                    phone_infor.append('')
+            price=div.find('h4').get_text().replace('\r','').replace('\n','').replace('\t','').replace(' ','').replace('/','')
+            products.append({'infor':phone_infor,'price':price})
+        except:
+            continue
+    imgs=soup.find('div',{'class':'goods_main_contents'}).find_all('img')
+    des=[]
+    for img in imgs:
+        des.append(img.get('src'))
+    item['des']=des
+    item['products']=products
+    item['configuration']=configuration
+    return item
+
 def update():
     session=login()
     phones=get_phones(session)
@@ -118,5 +168,16 @@ def update():
         result.append(item)
         print(phone['goodsNum'],phone['goodsName'],'ok')
     insert_into_mysql(result,'mainsite_phone')
+    tablets=get_tablets(session)
+    result=[]
+    for tablet in tablets:
+        try:
+            item=get_phone(tablet,session)
+        except:
+            print(tablet['goodsNum'],tablet['goodsName'],'failed')
+            continue
+        result.append(item)
+        print(tablet['goodsNum'],tablet['goodsName'],'ok')
+    insert_into_mysql(result,'mainsite_tablet')
 
 update()

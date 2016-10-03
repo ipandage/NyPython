@@ -12,28 +12,28 @@
 		<div id="page-wrapper">
 			<!-- Header -->
 				<header id="header">
-					<h1><a href="index.html">德兴手机批发报价</a></h1>
+					<h1><a href="index">德兴手机批发报价</a></h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="index.html">主页</a></li>
+							<li><a href="index">主页</a></li>
 							<li>
-								<a href="smartphone.html" class="icon fa-angle-down">智能机</a>
+								<a href="smartphone" class="icon fa-angle-down">智能机</a>
 								<ul>
 									{% for brand in phone_brands %}
-									<li><a href="smartphone.html?brand={{ brand }}"></a>{{ brand }}</li>
+									<li><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
 									{% endfor %}
 								</ul>
 							</li>
 							<li>
-								<a href="tablets.html" class="icon fa-angle-down">平板</a>
+								<a href="tablets" class="icon fa-angle-down">平板</a>
 								<ul>
 									{% for brand in tablet_brands %}
-									<li><a href="tablets.html?brand={{ brand }}"></a>{{ brand }}</li>
+									<li><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>
 									{% endfor %}
 								</ul>
 							</li>
-							<li><a href="">联系我们</a></li>
-							<li><a href="">关于</a></li>
+							<li><a href="contact">联系我们</a></li>
+							<li><a href="about">关于</a></li>
 							<!-- <li><a href="#" class="button">Sign Up</a></li> -->
 						</ul>
 					</nav>
