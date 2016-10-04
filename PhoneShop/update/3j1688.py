@@ -5,6 +5,7 @@ import pymysql
 import random
 import json
 import re
+import time
 
 def load_mysql_setting():
     f=open('./mysql_setting.json','r',encoding='utf8')
@@ -15,8 +16,9 @@ def insert_into_mysql(result,table):
     userdata=load_mysql_setting()
     conn=pymysql.connect(host=userdata['host'],user=userdata['user'],passwd=userdata['passwd'],db=userdata['db'],port=userdata['port'],charset=userdata['charset'])
     cur=conn.cursor()
+    timenow=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     for item in result:
-        row=cur.execute('update %s set products="%s" where goodsNum="%s"'%(table,str(item['products']),str(item['goodsNum'])))
+        row=cur.execute('update %s set products="%s",pub_date="%s" where goodsNum=%s'%(table,str(item['products']),timenow,str(item['goodsNum'])))
         if row==0:
             line=[]
             for key in ['goodsNum','price','goodsName','brand','des', 'products', 'configuration']:
@@ -24,7 +26,11 @@ def insert_into_mysql(result,table):
                     line.append(str(item[key]))
                 except:
                     line.append('')
-            cur.execute('insert into %s(goodsNum,price,goodsName,brand,des,products,configuration) values'%(table)+str(tuple(line)))
+            line.append(timenow)
+            try:
+                cur.execute('insert into %s(goodsNum,price,goodsName,brand,des,products,configuration,pub_date) values'%(table)+str(tuple(line)))
+            except:
+                pass
     conn.commit()
     cur.close()
     conn.close()
@@ -165,9 +171,9 @@ def update():
             item=get_phone(phone,session)
         except:
             print(phone['goodsNum'],phone['goodsName'],'failed')
-        print(item['configuration'])
         result.append(item)
-        print(phone['goodsNum'],phone['goodsName'],'ok')
+        timenow=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+        print(timenow,phone['goodsNum'],phone['goodsName'],'ok')
     insert_into_mysql(result,'mainsite_phone')
     tablets=get_tablets(session)
     result=[]
@@ -178,7 +184,8 @@ def update():
             print(tablet['goodsNum'],tablet['goodsName'],'failed')
             continue
         result.append(item)
-        print(tablet['goodsNum'],tablet['goodsName'],'ok')
+        timenow=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
+        print(timenow,tablet['goodsNum'],tablet['goodsName'],'ok')
     insert_into_mysql(result,'mainsite_tablet')
 
 update()
