@@ -1,5 +1,4 @@
-from .models import Phone,Price,Tablet
-from  .inquery import *
+from .models import *
 
 def get_tablet_brands():
     brands=[]
@@ -40,3 +39,23 @@ def get_item(goodsNum):
 def get_priceadd():
     prices=Price.objects.all()
     return prices
+
+def get_about():
+    abouts=About.objects.all()
+    return abouts
+
+def get_announcement():
+    announcements=Announcement.objects.all()
+    return announcements
+
+def get_allow_phone_brands():
+    brands=[]
+    for item in AllowPhoneBrand.objects.all():
+        brands.append(item.brand)
+    return brands
+
+def get_allow_tablet_brands():
+    brands=[]
+    for item in AllowTabletBrand.objects.all():
+        brands.append(item.brand)
+    return brands

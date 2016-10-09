@@ -63,7 +63,7 @@ def get_phones(session):
         except:
             continue
     '''
-    keys=['小米', '天语', '京凯达', '优思', '多美达', '福中福', '乐视', '华为', '荣耀', '苹果', '百立丰', '三星', '魅族', '大神', '酷派', '诺基亚', '联想', '中兴', '米多', 'Q2', '纽曼', '世纪天元', '爱我', '飞利浦', 'HTC', 'TCL', '倍斯特', '努比亚', '美图', '索尼', '微软', 'JIMI大可乐', '果果', '洪洋伟业', '摩托罗拉', '神舟', '大Q', '优它', '锤子', '青橙', '奇酷', '金星', '台电', '先科', '夏新', 'U8', '掌航', '"21克"', '小辣椒', '一加']
+    keys=['小米','乐视', '华为', '荣耀', '苹果', '三星', '魅族', '大神', '酷派', '诺基亚', '联想', '中兴', 'HTC', 'TCL','努比亚', '美图', '索尼', '微软', '摩托罗拉','锤子', '奇酷', '小辣椒', '一加']
     phones=[]
     for key in keys:
         try:
@@ -73,6 +73,8 @@ def get_phones(session):
                 item['brand']=key
                 if key=='荣耀':
                     item['brand']='华为'
+                if key=='努比亚':
+                    item['brand']='中兴'
                 phones.append(item)
         except:
             continue
@@ -81,7 +83,7 @@ def get_phones(session):
 
 def get_phone(item,session):
     html=session.get('http://www.3j1688.com/goods/detail/%s.html?s=bjd'%item['goodsNum'],headers=get_headers()).text
-    soup=BeautifulSoup(html,'lxml').find('div',id='xq_mian')
+    soup=BeautifulSoup(html).find('div',id='xq_mian')
     table=soup.find('div',{'class':'xq_main_02_let_03'}).find_all('div',{'class':'xq_main_02_let_02'})
     products=[]
     configuration=[]
@@ -131,7 +133,7 @@ def get_tablets(session):
 
 def get_tablet(item,session):
     html=session.get('http://www.3j1688.com/goods/detail/%s.html'%item['goodsNum'],headers=get_headers()).text
-    soup=BeautifulSoup(html,'lxml').find('div',id='xq_mian')
+    soup=BeautifulSoup(html).find('div',id='xq_mian')
     table=soup.find('div',{'class':'xq_main_02_let_03'}).find_all('div',{'class':'xq_main_02_let_02'})
     products=[]
     configuration=[]

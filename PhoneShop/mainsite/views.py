@@ -6,13 +6,32 @@ from django.template.loader import render_to_string
 # Create your views here.
 
 def index(request):
-    phone_brands=get_phone_brands()
-    tablet_brands=get_tablet_brands()
-    return render(request,'index.html',{'phone_brands':phone_brands,'tablet_brands':tablet_brands})
+    phone_brands=[]
+    tablet_brands=[]
+    allow_phones=get_allow_phone_brands()
+    allow_tablets=get_allow_tablet_brands()
+    for item in get_phone_brands():
+        if item in allow_phones:
+            phone_brands.append(item)
+    for item in get_tablet_brands():
+        if item in allow_tablets:
+            tablet_brands.append(item)
+    announcements=[]
+    for item in get_announcement():
+        announcements.append(item.infor)
+    return render(request,'index.html',{'phone_brands':phone_brands,'tablet_brands':tablet_brands,'announcements':announcements})
 
 def smartphone(request):
-    phone_brands=get_phone_brands()
-    tablet_brands=get_tablet_brands()
+    phone_brands=[]
+    tablet_brands=[]
+    allow_phones=get_allow_phone_brands()
+    allow_tablets=get_allow_tablet_brands()
+    for item in get_phone_brands():
+        if item in allow_phones:
+            phone_brands.append(item)
+    for item in get_tablet_brands():
+        if item in allow_tablets:
+            tablet_brands.append(item)
     try:
         brand=request.GET['brand']
     except:
@@ -38,8 +57,16 @@ def smartphone(request):
     return render(request,'items.html',{'brand':brand,'items':items,'phone_brands':phone_brands,'tablet_brands':tablet_brands})
 
 def tablets(request):
-    phone_brands=get_phone_brands()
-    tablet_brands=get_tablet_brands()
+    phone_brands=[]
+    tablet_brands=[]
+    allow_phones=get_allow_phone_brands()
+    allow_tablets=get_allow_tablet_brands()
+    for item in get_phone_brands():
+        if item in allow_phones:
+            phone_brands.append(item)
+    for item in get_tablet_brands():
+        if item in allow_tablets:
+            tablet_brands.append(item)
     try:
         brand=request.GET['brand']
     except:
@@ -65,8 +92,16 @@ def tablets(request):
     return render(request,'items.html',{'brand':brand,'items':items,'phone_brands':phone_brands,'tablet_brands':tablet_brands})
 
 def item(request):
-    phone_brands=get_phone_brands()
-    tablet_brands=get_tablet_brands()
+    phone_brands=[]
+    tablet_brands=[]
+    allow_phones=get_allow_phone_brands()
+    allow_tablets=get_allow_tablet_brands()
+    for item in get_phone_brands():
+        if item in allow_phones:
+            phone_brands.append(item)
+    for item in get_tablet_brands():
+        if item in allow_tablets:
+            tablet_brands.append(item)
     try:
         goodsNum=request.GET['goodsNum']
     except:
@@ -95,12 +130,18 @@ def item(request):
     des=eval(item.des)
     return render(request,'item.html',{'title':item.goodsName,'des':des,'configuration':configuration,'products':products,'phone_brands':phone_brands,'tablet_brands':tablet_brands})
 
-def contact(request):
-    phone_brands=get_phone_brands()
-    tablet_brands=get_tablet_brands()
-    return render(request,'contact.html',{'phone_brands':phone_brands,'tablet_brands':tablet_brands})
-
 def about(request):
-    phone_brands=get_phone_brands()
-    tablet_brands=get_tablet_brands()
-    return render(request,'about.html',{'phone_brands':phone_brands,'tablet_brands':tablet_brands})
+    phone_brands=[]
+    tablet_brands=[]
+    allow_phones=get_allow_phone_brands()
+    allow_tablets=get_allow_tablet_brands()
+    for item in get_phone_brands():
+        if item in allow_phones:
+            phone_brands.append(item)
+    for item in get_tablet_brands():
+        if item in allow_tablets:
+            tablet_brands.append(item)
+    abouts=[]
+    for item in get_about():
+        abouts.append(item.infor)
+    return render(request,'about.html',{'abouts':abouts,'phone_brands':phone_brands,'tablet_brands':tablet_brands})

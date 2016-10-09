@@ -32,7 +32,6 @@
 									{% endfor %}
 								</ul>
 							</li>
-							<li><a href="contact">联系我们</a></li>
 							<li><a href="about">关于</a></li>
 							<!-- <li><a href="#" class="button">Sign Up</a></li> -->
 						</ul>
@@ -43,8 +42,18 @@
 				<section id="banner">
 					<h2>德兴手机</h2>
 					<p>专业的手机批发</p>
+					<div class="" style="color:salmon">
+					   <div>
+						   <ul>
+							   {% for infor in announcements %}
+							   <li>
+    							  	{{ infor }}
+    						   </li>
+							   {% endfor %}
+						   </ul>
+					   </div>
+				   </div>
 				</section>
-
 			<!-- Main -->
 				<section id="main" class="container">
 
@@ -52,33 +61,39 @@
 						<div class="6u 12u(narrower)">
 
 							<section class="box special">
-								<span class="image featured"><img src="../static/images/pic02.jpg" alt="" /></span>
+								<span class="image featured"><img src="../static/images/phone.png" alt="" /></span>
 								<h3>智能机</h3>
 								<p>品牌热门手机</p>
-								<ul class="actions">
-									<li><a href="smartphone" class="button alt">查看更多</a></li>
+								<ul class="">
+									{% for brand in phone_brands %}
+									<li><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
+									{% endfor %}
 								</ul>
 							</section>
 
 						</div>
 						<div class="6u 12u(narrower)">
 							<section class="box special">
-								<span class="image featured"><img src="../static/images/pic03.jpg" alt="" /></span>
+								<span class="image featured"><img src="../static/images/tablet.png" alt="" /></span>
 								<h3>平板</h3>
 								<p>品牌热门平板</p>
-								<ul class="actions">
-									<li><a href="tablets" class="button alt">查看更多</a></li>
+								<ul class="">
+									{% for brand in tablet_brands %}
+									<li><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>
+									{% endfor %}
 								</ul>
 							</section>
-
 						</div>
 					</div>
-
 				</section>
-
-
 		</div>
-
+		<footer id="footer">
+			<ul class="copyright">
+				<li>&copy;All rights reserved.</li>
+				<li>电话:18866177757</li>
+				<li>地址:寿光石码路与圣城街北50米西</li>
+			</ul>
+		</footer>
 		<!-- Scripts -->
 			<script src="../static/assets/js/jquery.min.js"></script>
 			<script src="../static/assets/js/jquery.dropotron.min.js"></script>
