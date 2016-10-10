@@ -145,3 +145,38 @@ def about(request):
     for item in get_about():
         abouts.append(item.infor)
     return render(request,'about.html',{'abouts':abouts,'phone_brands':phone_brands,'tablet_brands':tablet_brands})
+
+def search(request):
+    phone_brands=[]
+    tablet_brands=[]
+    allow_phones=get_allow_phone_brands()
+    allow_tablets=get_allow_tablet_brands()
+    for item in get_phone_brands():
+        if item in allow_phones:
+            phone_brands.append(item)
+    for item in get_tablet_brands():
+        if item in allow_tablets:
+            tablet_brands.append(item)
+    try:
+        keyword=request.GET['keyword']
+    except:
+        pass
+    results=sql_search(keyword)
+    items=[]
+    prices=get_priceadd()
+    for product in results:
+        item={}
+        product_price=float(product.price)
+        for price in prices:
+            price_from=price.price_from
+            price_to=price.price_to
+            price_add=price.price_add
+            if product_price>=price_from and product_price<price_to:
+                product_price+=price_add
+                break
+        item['price']=product_price
+        item['goodsName']=product.goodsName
+        item['brand']=product.brand
+        item['goodsNum']=product.goodsNum
+        items.append(item)
+    return render(request,'items.html',{'items':items,'phone_brands':phone_brands,'tablet_brands':tablet_brands})

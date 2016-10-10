@@ -8,84 +8,75 @@
 		<link rel="stylesheet" href="../static/assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="../static/assets/css/ie8.css" /><![endif]-->
 	</head>
-	<body class="landing">
+	<body>
 		<div id="page-wrapper">
 			<!-- Header -->
-				<header id="header" class="alt">
-					<h1><a href="index">德兴手机批发报价</a></h1>
-					<nav id="nav">
+			<header id="header">
+				<h1><a href="index">德兴手机批发报价</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="index">主页</a></li>
+						<li>
+							<a href="smartphone" class="icon fa-angle-down">智能机</a>
+							<ul>
+								{% for brand in phone_brands %}
+								<li><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
+								{% endfor %}
+							</ul>
+						</li>
+						<li>
+							<a href="tablets" class="icon fa-angle-down">平板</a>
+							<ul>
+								{% for brand in tablet_brands %}
+								<li><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>
+								{% endfor %}
+							</ul>
+						</li>
+						<li><a href="about">关于</a></li>
+						<!-- <li><a href="#" class="button">Sign Up</a></li> -->
+					</ul>
+				</nav>
+			</header>
+			<section id="main" class="container">
+					<header>
+						<h2>德兴手机</h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——手机批发，一台起批
+					</header>
+					<div class="box" style="background:url(../static/images/background.png);color:white;">
+						<h3 style="color:white;text-align:center;">公告</h3>
 						<ul>
-							<li><a href="index">主页</a></li>
-							<li>
-								<a href="smartphone" class="icon fa-angle-down">智能机</a>
-								<ul>
-									{% for brand in phone_brands %}
-									<li><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
-									{% endfor %}
-								</ul>
-							</li>
-							<li>
-								<a href="tablets" class="icon fa-angle-down">平板</a>
-								<ul>
-									{% for brand in tablet_brands %}
-									<li><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>
-									{% endfor %}
-								</ul>
-							</li>
-							<li><a href="about">关于</a></li>
-							<!-- <li><a href="#" class="button">Sign Up</a></li> -->
-						</ul>
-					</nav>
-				</header>
-
-			<!-- Banner -->
-				<section id="banner">
-					<h2>德兴手机</h2>
-					<p>专业的手机批发</p>
-					<div class="" style="color:salmon">
-					   <div>
-						   <ul>
-							   {% for infor in announcements %}
+							{% for infor in announcements %}
 							   <li>
     							  	{{ infor }}
     						   </li>
-							   {% endfor %}
-						   </ul>
-					   </div>
-				   </div>
-				</section>
-			<!-- Main -->
-				<section id="main" class="container">
-
-					<div class="row">
-						<div class="6u 12u(narrower)">
-
-							<section class="box special">
-								<span class="image featured"><img src="../static/images/phone.png" alt="" /></span>
-								<h3>智能机</h3>
-								<p>品牌热门手机</p>
-								<ul class="">
-									{% for brand in phone_brands %}
-									<li><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
-									{% endfor %}
-								</ul>
-							</section>
-
-						</div>
-						<div class="6u 12u(narrower)">
-							<section class="box special">
-								<span class="image featured"><img src="../static/images/tablet.png" alt="" /></span>
-								<h3>平板</h3>
-								<p>品牌热门平板</p>
-								<ul class="">
-									{% for brand in tablet_brands %}
-									<li><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>
-									{% endfor %}
-								</ul>
-							</section>
-						</div>
+							{% endfor %}
+						</ul>
 					</div>
-				</section>
+					<div class="">
+						<form class="" style="padding-top:10px;padding-bottom:10px;" action="search" method="get">
+							<div class="9u 12u(mobilep)" style="float:left">
+								<input type="text" placeholder="查找" name="keyword" value="" >
+							</div>
+							<div class="2u 12u(mobilep)" style="float:right">
+								<input type="submit" class="fit" value="搜索">
+							</div>
+						</form>
+					</div>
+					<br>
+					<div class="box">
+						<h3>智能机</h3>
+						<ul>
+								{% for brand in phone_brands %}
+								<li style="display:inline"><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
+								{% endfor %}
+						</ul>
+						<h3>平板</h3>
+						<ul class="">
+							{% for brand in tablet_brands %}
+							<li style="display:inline"><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+			</section>
 		</div>
 		<footer id="footer">
 			<ul class="copyright">
