@@ -19,6 +19,7 @@
 #####6.proxyip
 获取免费高匿代理IP
 爬取ipcn,西刺代理，开心代理，米扑代理等网站的免费代理，筛选出可用的代理ip
+获取地址:http://nyloner.cn/proxy
 
 #####7.labelword
 将txt文档转成html，并用不同颜色标记不同词频的单词
