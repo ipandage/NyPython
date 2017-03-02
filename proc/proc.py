@@ -45,7 +45,7 @@ def get_memory_infor():
 
 def get_network_infor():
     pre_data = { }
-    while None:
+    while True:
         data = { }
         try:
             for line in open('/proc/net/dev', 'r', encoding = 'utf-8'):

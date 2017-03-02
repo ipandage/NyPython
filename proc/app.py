@@ -12,11 +12,6 @@ class CPU(QtCore.QThread):
 
     def run(self):
         for result in get_cpu_infor():
-            '''
-            result={}
-            for key in ['cpu0','cpu1','cpu2','cpu3']:
-                result[key]=random.randint(0,20)/100
-            '''
             self._cpu_infor_signal.emit(result)
             time.sleep(1)
 
@@ -69,6 +64,7 @@ class DrawNetwork(QtWidgets.QWidget):
     def __init__(self,network_data):
         super(DrawNetwork,self).__init__()
         self.network_data=network_data
+        self.colors=[QColor(255,160,90),QColor(255,100,90),QColor(200,100,200),QColor(100,100,100)]
 
     def paintEvent(self,event):
         painter=QtGui.QPainter()
@@ -77,8 +73,57 @@ class DrawNetwork(QtWidgets.QWidget):
         painter.end()
 
     def draw_network(self,painter):
-        pass
+        net_now=self.network_data[0]
+        text_font=QFont()
+        text_font.setPointSize(10)
+        text_font.setItalic(True)
+        for i in range(2):
+            painter.setPen(QPen(QColor(100,120,30),2))
+            painter.setBrush(self.colors[i]);
+            painter.drawRect(30+i*300,400,80,40)
+        for key in net_now:
+            if key=='lo':
+                continue
+            painter.setPen(QColor(50,50,50))
+            painter.setFont(text_font)
+            download=(net_now[key][0]/1024)/1024
+            painter.drawText(115,415,"已下载:%.2f MB"%download)
+            download_speed=net_now[key][2]
+            painter.drawText(115,435,"Speed:%.2f KB/s"%download_speed)
+            up=(net_now[key][2]/1024)/1024
+            up_speed=net_now[key][3]
+            painter.drawText(415,415,"已上传:%.2f MB"%up)
+            painter.drawText(415,435,"Speed:%.2f KB/s"%up_speed)
+            break
+        painter.setPen(QColor(50,50,50))
+        painter.drawLine(30,30,30,330)
+        painter.drawLine(30,330,630,330)
+        length=len(self.network_data[:40])
+        for i in range(length-1):
+            for key in self.network_data[i]:
+                if key=='lo':
+                    continue
+                painter.setPen(QPen(self.colors[0],2))
+                try:
+                    y1=330-(self.network_data[i][key][2]/2048)*300
+                except:
+                    y1=320
+                try:
+                    y2=330-(self.network_data[i+1][key][2]/2048)*300
+                except:
+                    y2=320
+                painter.drawLine(i*15+30,y1,i*15+45,y2)
 
+                painter.setPen(QPen(self.colors[1],2))
+                try:
+                    y1=330-(self.network_data[i][key][3]/3072)*300
+                except:
+                    y1=320
+                try:
+                    y2=330-(self.network_data[i+1][key][3]/3072)*300
+                except:
+                    y2=320
+                painter.drawLine(i*15+30,y1,i*15+45,y2)
 
 class DrawCPU(QtWidgets.QWidget):
     def __init__(self,cpu_data):
@@ -95,6 +140,7 @@ class DrawCPU(QtWidgets.QWidget):
     def draw_cpus(self,painter):
         cpus=self.cpu_data[0]
         cpus=sorted(cpus.items(),key=lambda x:x[0])
+        cpus=cpus[1:]
         length=len(cpus)
         width=int(750/length)
         text_font=QFont()
@@ -114,7 +160,7 @@ class DrawCPU(QtWidgets.QWidget):
         painter.setPen(QColor(50,50,50))
         painter.drawLine(30,30,30,330)
         painter.drawLine(30,330,630,330)
-        data_length=len(self.cpu_data[:60])
+        data_length=len(self.cpu_data[:40])
         for i in range(data_length):
             if i==data_length-1:
                 break
@@ -131,7 +177,7 @@ class DrawCPU(QtWidgets.QWidget):
                     y2=330-self.cpu_data[i+1][cpu]*300
                 except:
                     y2=320
-                painter.drawLine(i*10+30,y1,i*10+40,y2)
+                painter.drawLine(i*15+30,y1,i*15+45,y2)
 
 class Manager(Ui_MainWindow,QtWidgets.QMainWindow):
     def __init__(self):
@@ -171,7 +217,13 @@ class Manager(Ui_MainWindow,QtWidgets.QMainWindow):
         pass
 
     def load_network_infor(self,infor):
-        pass
+        try:
+            del self.draw_net
+        except:
+            pass
+        self.net_data.insert(0,infor)
+        self.draw_net=DrawNetwork(self.net_data)
+        self.net_gridLayout.addWidget(self.draw_net,0,0)
 
     def load_process_infor(self,infor):
         pass
