@@ -1,6 +1,7 @@
 from ui import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QColor,QPen,QFont
+from PyQt5.QtChart import *
 from proc import *
 import time
 import random
@@ -47,18 +48,22 @@ class Network(QtCore.QThread):
             self._net_infor_signal.emit(infor)
             time.sleep(1)
 
-class DrawMemory(QtWidgets.QWidget):
+class DrawMemory(QChartView):
     def __init__(self,mem_infor):
         super(DrawMemory,self).__init__()
+        self.mem_infor=mem_infor
+        self.draw_mem()
 
-    def paintEvent(self,event):
-        painter=QtGui.QPainter()
-        painter.begin(self)
-        self.draw_mem(painter)
-        painter.end()
-
-    def draw_mem(self,painter):
-        pass
+    def draw_mem(self):
+        memtotal=self.mem_infor['MemTotal']
+        memfree=self.mem_infor['MemAvailable']
+        memused=memtotal-memfree
+        pieseries=QPieSeries()
+        pieseries.setHoleSize(0.1)
+        pieseries.append("空闲 %.2f MB"%(memfree),memfree/memtotal)
+        pieseries.append("已使用 %.2f MB"%(memused),memused/memtotal)
+        self.chart().addSeries(pieseries)
+        self.chart().setTitle("内存使用情况")
 
 class DrawNetwork(QtWidgets.QWidget):
     def __init__(self,network_data):
@@ -76,7 +81,6 @@ class DrawNetwork(QtWidgets.QWidget):
         net_now=self.network_data[0]
         text_font=QFont()
         text_font.setPointSize(10)
-        text_font.setItalic(True)
         for i in range(2):
             painter.setPen(QPen(QColor(100,120,30),2))
             painter.setBrush(self.colors[i]);
@@ -145,7 +149,6 @@ class DrawCPU(QtWidgets.QWidget):
         width=int(750/length)
         text_font=QFont()
         text_font.setPointSize(20-2*length)
-        text_font.setItalic(True)
         line_colors={}
         for i in range(length):
             painter.setPen(QPen(QColor(100,120,30),2))
@@ -214,7 +217,12 @@ class Manager(Ui_MainWindow,QtWidgets.QMainWindow):
         self.cpu_gridLayout.addWidget(self.draw_cpu,0,0)
 
     def load_memory_infor(self,infor):
-        pass
+        try:
+            del self.draw_mem
+        except:
+            pass
+        self.draw_mem=DrawMemory(infor)
+        self.mem_gridLayout.addWidget(self.draw_mem,0,0)
 
     def load_network_infor(self,infor):
         try:

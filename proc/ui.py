@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -49,17 +49,16 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.Net_infor, "")
         self.Process_infor = QtWidgets.QWidget()
         self.Process_infor.setObjectName("Process_infor")
-        self.gridLayoutWidget_4 = QtWidgets.QWidget(self.Process_infor)
-        self.gridLayoutWidget_4.setGeometry(QtCore.QRect(0, 0, 741, 491))
-        self.gridLayoutWidget_4.setObjectName("gridLayoutWidget_4")
-        self.process_gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget_4)
-        self.process_gridLayout.setContentsMargins(11, 11, 11, 11)
-        self.process_gridLayout.setSpacing(6)
-        self.process_gridLayout.setObjectName("process_gridLayout")
+        self.treeWidget = QtWidgets.QTreeWidget(self.Process_infor)
+        self.treeWidget.setGeometry(QtCore.QRect(0, 0, 741, 461))
+        self.treeWidget.setObjectName("treeWidget")
+        self.pushButton = QtWidgets.QPushButton(self.Process_infor)
+        self.pushButton.setGeometry(QtCore.QRect(0, 460, 113, 31))
+        self.pushButton.setObjectName("pushButton")
         self.tabWidget.addTab(self.Process_infor, "")
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 750, 28))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 750, 22))
         self.menuBar.setObjectName("menuBar")
         self.menu = QtWidgets.QMenu(self.menuBar)
         self.menu.setObjectName("menu")
@@ -85,9 +84,17 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.CPU_infor), _translate("MainWindow", "CPU"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Mem_infor), _translate("MainWindow", "内存"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Net_infor), _translate("MainWindow", "网络"))
+        self.treeWidget.headerItem().setText(0, _translate("MainWindow", "PID"))
+        self.treeWidget.headerItem().setText(1, _translate("MainWindow", "名称"))
+        self.treeWidget.headerItem().setText(2, _translate("MainWindow", "状态"))
+        self.treeWidget.headerItem().setText(3, _translate("MainWindow", "内存"))
+        self.treeWidget.headerItem().setText(4, _translate("MainWindow", "线程数"))
+        self.treeWidget.headerItem().setText(5, _translate("MainWindow", "用户"))
+        self.pushButton.setText(_translate("MainWindow", "结束进程"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Process_infor), _translate("MainWindow", "进程"))
         self.menu.setTitle(_translate("MainWindow", "菜单"))
         self.actionCPU.setText(_translate("MainWindow", "CPU"))
         self.actionMem.setText(_translate("MainWindow", "Mem"))
         self.actionProcess.setText(_translate("MainWindow", "Process"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
