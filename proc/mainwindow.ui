@@ -78,12 +78,25 @@
      <attribute name="title">
       <string>进程</string>
      </attribute>
-     <widget class="QTreeWidget" name="treeWidget">
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>460</y>
+        <width>113</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>结束进程</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidget">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>741</width>
+        <width>761</width>
         <height>461</height>
        </rect>
       </property>
@@ -117,19 +130,6 @@
         <string>用户</string>
        </property>
       </column>
-     </widget>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>460</y>
-        <width>113</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>结束进程</string>
-      </property>
      </widget>
     </widget>
    </widget>

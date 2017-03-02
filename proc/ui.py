@@ -109,12 +109,9 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "内存"))
         item = self.tableWidget.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "线程数"))
-        item = self.tableWidget.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "用户"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Process_infor), _translate("MainWindow", "进程"))
         self.menu.setTitle(_translate("MainWindow", "菜单"))
         self.actionCPU.setText(_translate("MainWindow", "CPU"))
         self.actionMem.setText(_translate("MainWindow", "Mem"))
         self.actionProcess.setText(_translate("MainWindow", "Process"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
-

@@ -5,6 +5,8 @@ from PyQt5.QtChart import *
 from proc import *
 import time
 import random
+import os
+import signal
 
 class CPU(QtCore.QThread):
     _cpu_infor_signal=QtCore.pyqtSignal(dict)
@@ -36,7 +38,7 @@ class Process(QtCore.QThread):
         while True:
             infor=get_process_infor()
             self._proc_infor_signal.emit(infor)
-            time.sleep(1)
+            time.sleep(4)
 
 class Network(QtCore.QThread):
     _net_infor_signal=QtCore.pyqtSignal(dict)
@@ -81,6 +83,7 @@ class DrawNetwork(QtWidgets.QWidget):
         net_now=self.network_data[0]
         text_font=QFont()
         text_font.setPointSize(10)
+        #text_font.setItalic(True)
         for i in range(2):
             painter.setPen(QPen(QColor(100,120,30),2))
             painter.setBrush(self.colors[i]);
@@ -149,6 +152,7 @@ class DrawCPU(QtWidgets.QWidget):
         width=int(750/length)
         text_font=QFont()
         text_font.setPointSize(20-2*length)
+        #text_font.setItalic(True)
         line_colors={}
         for i in range(length):
             painter.setPen(QPen(QColor(100,120,30),2))
@@ -193,8 +197,8 @@ class Manager(Ui_MainWindow,QtWidgets.QMainWindow):
         self.init_signal()
         self.cpu_data=[]
         self.mem_data=[]
-        self.pro_data=[]
         self.net_data=[]
+        self.process_data=[]
 
     def init_signal(self):
         self.cpu._cpu_infor_signal.connect(self.load_cpu_infor)
@@ -215,6 +219,15 @@ class Manager(Ui_MainWindow,QtWidgets.QMainWindow):
         self.cpu_data.insert(0,infor)
         self.draw_cpu=DrawCPU(self.cpu_data)
         self.cpu_gridLayout.addWidget(self.draw_cpu,0,0)
+        self.pushButton.clicked.connect(self.close_process)
+
+    def close_process(self):
+        try:
+            index=self.tableWidget.currentRow()
+            pid=self.process_data[index]
+            os.kill(int(pid),signal.SIGKILL)
+        except:
+            pass
 
     def load_memory_infor(self,infor):
         try:
@@ -230,12 +243,29 @@ class Manager(Ui_MainWindow,QtWidgets.QMainWindow):
         except:
             pass
         self.net_data.insert(0,infor)
+        self.net_data=self.net_data[:50]
         self.draw_net=DrawNetwork(self.net_data)
         self.net_gridLayout.addWidget(self.draw_net,0,0)
 
-    def load_process_infor(self,infor):
-        pass
-
+    def load_process_infor(self,result):
+        self.tableWidget.clearContents()
+        self.process_data.clear()
+        self.process_data=result
+        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setRowCount(len(result))
+        keys=['Pid','Name','State','VmRSS','Threads']
+        for num in range(len(self.process_data)):
+            line=[]
+            item=self.process_data[num]
+            for key in keys:
+                try:
+                    line.append(item[key])
+                except:
+                    line.append('')
+            for i in range(5):
+                newitem=QtWidgets.QTableWidgetItem()
+                newitem.setText(str(line[i]))
+                self.tableWidget.setItem(num,i,newitem)
 
 if __name__ == '__main__':
     import sys

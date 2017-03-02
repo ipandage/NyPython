@@ -83,9 +83,16 @@ def get_network_infor():
 
 def get_process_infor():
     result = []
-    for dirname in os.listdir('.'):
+    for dirname in os.listdir('/proc'):
         try:
             pid = int(dirname)
         except:
             continue
-    return []
+        item={}
+        for line in open('/proc/%s/status'%dirname,'r',encoding='utf-8'):
+            line = line.replace('\n', '').replace('\t', '').replace(' ', '').split(':')
+            key = line[0]
+            value = line[1]
+            item[key] = value
+        result.append(item)
+    return result
