@@ -1,5 +1,4 @@
-#
-##Python写的一些小工具
+###Python写的一些小工具
 
 #####1.CaptchaRecognise
 针对简单的数字字母验证码做识别
