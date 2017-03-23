@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="../static/assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="../static/assets/css/main.css" />
+		<link rel="stylesheet" href="../static/js/bootstrap.js" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="../static/assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body>
@@ -51,25 +52,14 @@
 							{% endfor %}
 						</ul>
 					</div>
-					<div class="">
-						<form class="" style="padding-top:10px;padding-bottom:10px;" action="search" method="get">
-							<div class="9u 12u(mobilep)" style="float:left">
-								<input type="text" placeholder="查找" name="keyword" value="" >
-							</div>
-							<div class="2u 12u(mobilep)" style="float:right">
-								<input type="submit" class="fit" value="搜索">
-							</div>
-						</form>
-					</div>
-					<br>
 					<div class="box">
-						<h3>智能机</h3>
+						<h3>智能手机报价表</h3>
 						<ul>
 								{% for brand in phone_brands %}
 								<li style="display:inline"><a href="smartphone?brand={{ brand }}">{{ brand }}</a></li>
 								{% endfor %}
 						</ul>
-						<h3>平板</h3>
+						<h3>平板电脑报价表</h3>
 						<ul class="">
 							{% for brand in tablet_brands %}
 							<li style="display:inline"><a href="tablets?brand={{ brand }}">{{ brand }}</a></li>

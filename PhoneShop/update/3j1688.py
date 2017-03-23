@@ -18,7 +18,7 @@ def insert_into_mysql(result,table):
     cur=conn.cursor()
     timenow=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     for item in result:
-        row=cur.execute('update %s set products="%s",pub_date="%s" where goodsNum=%s'%(table,str(item['products']),timenow,str(item['goodsNum'])))
+        row=cur.execute('update %s set products="%s",pub_date="%s",price="%s" where goodsNum=%s'%(table,str(item['products']),timenow,str(item['price']),str(item['goodsNum'])))
         if row==0:
             line=[]
             for key in ['goodsNum','price','goodsName','brand','des', 'products', 'configuration']:
@@ -101,6 +101,10 @@ def get_phone(item,session):
                     phone_infor.append(td.get_text())
                 except:
                     phone_infor.append('')
+            try:
+                phone_infor.append(tds[-1].get_text().replace('\r','').replace('\n','').replace('\t','').replace(' ',''))
+            except:
+                phone_infor.append('-')
             price=div.find('h4').get_text().replace('\r','').replace('\n','').replace('\t','').replace(' ','').replace('/','')
             products.append({'infor':phone_infor,'price':price})
         except:
@@ -151,6 +155,10 @@ def get_tablet(item,session):
                     phone_infor.append(td.get_text())
                 except:
                     phone_infor.append('')
+            try:
+                phone_infor.append(tds[-1].get_text().replace('\r','').replace('\n','').replace('\t','').replace(' ',''))
+            except:
+                phone_infor.append('-')
             price=div.find('h4').get_text().replace('\r','').replace('\n','').replace('\t','').replace(' ','').replace('/','')
             products.append({'infor':phone_infor,'price':price})
         except:
@@ -190,4 +198,9 @@ def update():
         print(timenow,tablet['goodsNum'],tablet['goodsName'],'ok')
     insert_into_mysql(result,'mainsite_tablet')
 
-update()
+while True:
+    timenow=time.strftime("%H:%M",time.localtime())
+    if '14:3' in timenow:
+        update()
+        time.sleep(3600*10)
+    time.sleep(300)

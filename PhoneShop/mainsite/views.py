@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http  import HttpResponseRedirect
 from django.template.loader import render_to_string
+import time
 # Create your views here.
 
 def index(request):
@@ -39,7 +40,11 @@ def smartphone(request):
     results=get_phones(brand)
     items=[]
     prices=get_priceadd()
+    date_today=int(time.strftime("%Y%m%d"))
     for product in results:
+        update_date=int(product.pub_date.split(' ')[0].replace('-',''))
+        if date_today-update_date>2:
+            continue
         item={}
         product_price=float(product.price)
         for price in prices:
@@ -74,7 +79,11 @@ def tablets(request):
     results=get_tablets(brand)
     items=[]
     prices=get_priceadd()
+    date_today=int(time.strftime("%Y%m%d"))
     for product in results:
+        update_date=int(product.pub_date.split(' ')[0].replace('-',''))
+        if date_today-update_date>2:
+            continue
         item={}
         product_price=float(product.price)
         for price in prices:
@@ -88,6 +97,8 @@ def tablets(request):
         item['goodsName']=product.goodsName
         item['brand']=product.brand
         item['goodsNum']=product.goodsNum
+        update_date=product.pub_date
+        print(update_date)
         items.append(item)
     return render(request,'items.html',{'brand':brand,'items':items,'phone_brands':phone_brands,'tablet_brands':tablet_brands})
 
