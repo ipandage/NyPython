@@ -18,7 +18,7 @@ def insert_into_mysql(result,table):
     cur=conn.cursor()
     timenow=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())
     for item in result:
-        row=cur.execute('update %s set products="%s",pub_date="%s",price="%s" where goodsNum=%s'%(table,str(item['products']),timenow,str(item['price']),str(item['goodsNum'])))
+        row=cur.execute('update %s set products="%s",goodsName="%s",des="%s",pub_date="%s",price="%s" where goodsNum=%s'%(table,str(item['products']),str(item['goodsName']),str(item['des']),timenow,str(item['price']),str(item['goodsNum'])))
         if row==0:
             line=[]
             for key in ['goodsNum','price','goodsName','brand','des', 'products', 'configuration']:
