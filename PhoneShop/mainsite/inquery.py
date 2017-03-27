@@ -60,13 +60,12 @@ def get_allow_tablet_brands():
         brands.append(item.brand)
     return brands
 
-
 def sql_search(keyword):
     items=[]
     for item in Phone.objects.all():
-        if keyword in item.goodsName:
+        if keyword in item.goodsName.replace(' ','').replace('-','').lower():
             items.append(item)
     for item in Tablet.objects.all():
-        if keyword in item.goodsName:
+        if keyword in item.goodsName.replace(' ','').replace('-','').lower():
             items.append(item)
     return items

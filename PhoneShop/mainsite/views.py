@@ -14,13 +14,67 @@ def index(request):
     for item in get_phone_brands():
         if item in allow_phones:
             phone_brands.append(item)
+
+    all_phones=get_phones()
+    date_today=int(time.strftime("%Y%m%d"))
+    phones=[]
+    need_phones={}
+    for product in all_phones:
+        update_date=int(product.pub_date.split(' ')[0].replace('-',''))
+        if date_today-update_date>=2:
+            continue
+        if product.brand not in phone_brands:
+            continue
+        item={}
+        item['goodsName']=product.goodsName
+        item['brand']=product.brand
+        item['goodsNum']=product.goodsNum
+        if product.brand in need_phones:
+            need_phones[product.brand].append(item)
+        else:
+            need_phones[product.brand]=[item]
+    for brand in phone_brands:
+        try:
+            items=need_phones[brand]
+        except:
+            continue
+        phones.append({'name':brand,'items':items})
+
     for item in get_tablet_brands():
         if item in allow_tablets:
             tablet_brands.append(item)
+
+    all_tablets=get_tablets()
+    date_today=int(time.strftime("%Y%m%d"))
+    need_tablets={}
+    tablets=[]
+    for product in all_tablets:
+        update_date=int(str(product.pub_date).split(' ')[0].replace('-',''))
+        if date_today-update_date>=2:
+            continue
+        if product.brand not in tablet_brands:
+            continue
+        item={}
+        item['goodsName']=product.goodsName
+        item['brand']=product.brand
+        item['goodsNum']=product.goodsNum
+        if product.brand in need_tablets:
+            need_tablets[product.brand].append(item)
+        else:
+            need_tablets[product.brand]=[item]
+
+    for brand in tablet_brands:
+        try:
+            items=need_tablets[brand]
+        except:
+            continue
+        tablets.append({'name':brand,'items':items})
+
     announcements=[]
     for item in get_announcement():
         announcements.append(item.infor)
-    return render(request,'index.html',{'phone_brands':phone_brands,'tablet_brands':tablet_brands,'announcements':announcements})
+
+    return render(request,'index.html',{'tablets':tablets,'phones':phones,'phone_brands':phone_brands,'tablet_brands':tablet_brands,'announcements':announcements})
 
 def smartphone(request):
     phone_brands=[]
@@ -42,8 +96,8 @@ def smartphone(request):
     prices=get_priceadd()
     date_today=int(time.strftime("%Y%m%d"))
     for product in results:
-        update_date=int(product.pub_date.split(' ')[0].replace('-',''))
-        if date_today-update_date>2:
+        update_date=int(str(product.pub_date).split(' ')[0].replace('-',''))
+        if date_today-update_date>=2:
             continue
         item={}
         product_price=float(product.price)
@@ -81,8 +135,8 @@ def tablets(request):
     prices=get_priceadd()
     date_today=int(time.strftime("%Y%m%d"))
     for product in results:
-        update_date=int(product.pub_date.split(' ')[0].replace('-',''))
-        if date_today-update_date>2:
+        update_date=int(str(product.pub_date).split(' ')[0].replace('-',''))
+        if date_today-update_date>=2:
             continue
         item={}
         product_price=float(product.price)
@@ -97,8 +151,6 @@ def tablets(request):
         item['goodsName']=product.goodsName
         item['brand']=product.brand
         item['goodsNum']=product.goodsNum
-        update_date=product.pub_date
-        print(update_date)
         items.append(item)
     return render(request,'items.html',{'brand':brand,'items':items,'phone_brands':phone_brands,'tablet_brands':tablet_brands})
 
@@ -170,6 +222,7 @@ def search(request):
             tablet_brands.append(item)
     try:
         keyword=request.GET['keyword']
+        keyword=keyword.replace(' ','').replace('-','').lower()
     except:
         pass
     results=sql_search(keyword)

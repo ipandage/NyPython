@@ -47,18 +47,14 @@
                         <table class="alt">
                             <thead>
                                 <tr>
-                                    <th>品牌</th>
                                     <th>名称</th>
-                                    <th>价格</th>
                                     <th>详情</th>
                                 </tr>
                             </thead>
                             <tbody>
 								{% for item in items %}
                                 <tr>
-                                    <td>{{ item.brand }}</td>
                                     <td>{{ item.goodsName }}</td>
-                                    <td>{{ item.price }}</td>
                                     <td><a href="item?goodsNum={{ item.goodsNum }}">查看更多</a></td>
                                 </tr>
 								{% endfor %}
