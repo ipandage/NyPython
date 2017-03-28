@@ -54,15 +54,16 @@
 					<div class="">
 						<div class="box">
 							<form method="get" action="./search" class="navbar-form navbar-left" role="search">
-                  				<div class="form-group">
-                    				<input type="text" class="form-control" name="keyword" placeholder="Search">
-                  				</div>
-								<br>
-                  				<button type="submit" class="button">搜索</button>
+								<table>
+									<tbody>
+										<tr>
+											<td><h3>智能手机报价表</h3></td>
+											<td><input   type="text"  name="keyword" placeholder="搜索型号"></td>
+											<td><button  type="submit" class="button">搜索</button></td>
+										</tr>
+									</tbody>
+								</table>
                 			</form>
-						</div>
-						<div class="box">
-							<h3>智能手机报价表</h3>
 							<p>(点击型号查看详细报价及配置)</p>
 							{% for brand in phones %}
 								<h4>{{ brand.name }}<h4>
@@ -77,6 +78,29 @@
 						<div class="box">
 							<h3>平板电脑报价表</h3>
 							{% for brand in tablets %}
+								<h4>{{ brand.name }}<h4>
+								<ul class="list-group">
+										{% for tablet in brand.items %}
+										<li class="list-group-item"><a style="color:red" href="item?goodsNum={{ tablet.goodsNum }}">{{ tablet.goodsName }}</a></li>
+										{% endfor %}
+								</ul>
+								<hr>
+							{% endfor %}
+						</div>
+
+						<div class="box">
+							<form method="get" action="./search" class="navbar-form navbar-left" role="search">
+								<table>
+									<tbody>
+										<tr>
+											<td><h3>智能生活</h3></td>
+											<td><input   type="text"  name="keyword" placeholder="搜索型号"></td>
+											<td><button  type="submit" class="button">搜索</button></td>
+										</tr>
+									</tbody>
+								</table>
+                			</form>
+							{% for brand in smartitems %}
 								<h4>{{ brand.name }}<h4>
 								<ul class="list-group">
 										{% for tablet in brand.items %}

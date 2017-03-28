@@ -28,10 +28,18 @@ def get_tablets(brand=''):
     result=Tablet.objects.filter(brand=brand)
     return result
 
+def get_smart_items(brand=''):
+    if brand=='':
+        return SmartItem.objects.all()
+    result=SmartItem.objects.filter(brand=brand)
+    return result
+
 def get_item(goodsNum):
     item=Phone.objects.filter(goodsNum=goodsNum)
     if len(item)==0:
         item=Tablet.objects.filter(goodsNum=goodsNum)
+    if len(item)==0:
+        item=SmartItem.objects.filter(goodsNum=goodsNum)
     if len(item)==0:
         return False
     return item[0]
@@ -66,6 +74,9 @@ def sql_search(keyword):
         if keyword in item.goodsName.replace(' ','').replace('-','').lower():
             items.append(item)
     for item in Tablet.objects.all():
+        if keyword in item.goodsName.replace(' ','').replace('-','').lower():
+            items.append(item)
+    for item in SmartItem.objects.all():
         if keyword in item.goodsName.replace(' ','').replace('-','').lower():
             items.append(item)
     return items

@@ -74,7 +74,26 @@ def index(request):
     for item in get_announcement():
         announcements.append(item.infor)
 
-    return render(request,'index.html',{'tablets':tablets,'phones':phones,'phone_brands':phone_brands,'tablet_brands':tablet_brands,'announcements':announcements})
+    all_smartitems=get_smart_items()
+    date_today=int(time.strftime("%Y%m%d"))
+    smart_items={}
+    for product in all_smartitems:
+        update_date=int(str(product.pub_date).split(' ')[0].replace('-',''))
+        if date_today-update_date>=2:
+            continue
+        item={}
+        item['goodsName']=product.goodsName
+        item['brand']=product.brand
+        item['goodsNum']=product.goodsNum
+        if product.brand in smart_items:
+            smart_items[product.brand].append(item)
+        else:
+            smart_items[product.brand]=[item]
+    smart_items_list=[]
+    for key in smart_items:
+        item={'name':key,'items':smart_items[key]}
+        smart_items_list.append(item)
+    return render(request,'index.html',{'smartitems':smart_items_list,'tablets':tablets,'phones':phones,'phone_brands':phone_brands,'tablet_brands':tablet_brands,'announcements':announcements})
 
 def smartphone(request):
     phone_brands=[]
