@@ -6,22 +6,29 @@ from django.template.loader import render_to_string
 import time
 # Create your views here.
 
+def is_outof_date(date):
+    date_today=time.localtime()
+    date=time.strptime(date, "%Y-%m-%d %H:%M:%S")
+    result=time.mktime(date_today)-time.mktime(date)
+    if result>174496:
+        return True
+    return False
+
 def index(request):
     phone_brands=[]
     tablet_brands=[]
     allow_phones=get_allow_phone_brands()
     allow_tablets=get_allow_tablet_brands()
-    for item in get_phone_brands():
-        if item in allow_phones:
-            phone_brands.append(item)
+    brands=get_phone_brands()
+    for brand in allow_phones:
+        if brand in brands:
+            phone_brands.append(brand)
 
     all_phones=get_phones()
-    date_today=int(time.strftime("%Y%m%d"))
     phones=[]
     need_phones={}
     for product in all_phones:
-        update_date=int(product.pub_date.split(' ')[0].replace('-',''))
-        if date_today-update_date>=2:
+        if is_outof_date(product.pub_date):
             continue
         if product.brand not in phone_brands:
             continue
@@ -40,17 +47,16 @@ def index(request):
             continue
         phones.append({'name':brand,'items':items})
 
-    for item in get_tablet_brands():
-        if item in allow_tablets:
-            tablet_brands.append(item)
+    brands=get_tablet_brands()
+    for brand in allow_tablets:
+        if brand in brands:
+            tablet_brands.append(brand)
 
     all_tablets=get_tablets()
-    date_today=int(time.strftime("%Y%m%d"))
     need_tablets={}
     tablets=[]
     for product in all_tablets:
-        update_date=int(str(product.pub_date).split(' ')[0].replace('-',''))
-        if date_today-update_date>=2:
+        if is_outof_date(product.pub_date):
             continue
         if product.brand not in tablet_brands:
             continue
@@ -75,11 +81,9 @@ def index(request):
         announcements.append(item.infor)
 
     all_smartitems=get_smart_items()
-    date_today=int(time.strftime("%Y%m%d"))
     smart_items={}
     for product in all_smartitems:
-        update_date=int(str(product.pub_date).split(' ')[0].replace('-',''))
-        if date_today-update_date>=2:
+        if is_outof_date(product.pub_date):
             continue
         item={}
         item['goodsName']=product.goodsName
@@ -115,8 +119,7 @@ def smartphone(request):
     prices=get_priceadd()
     date_today=int(time.strftime("%Y%m%d"))
     for product in results:
-        update_date=int(str(product.pub_date).split(' ')[0].replace('-',''))
-        if date_today-update_date>=2:
+        if is_outof_date(product.pub_date):
             continue
         item={}
         product_price=float(product.price)
@@ -154,8 +157,7 @@ def tablets(request):
     prices=get_priceadd()
     date_today=int(time.strftime("%Y%m%d"))
     for product in results:
-        update_date=int(str(product.pub_date).split(' ')[0].replace('-',''))
-        if date_today-update_date>=2:
+        if is_outof_date(product.pub_date):
             continue
         item={}
         product_price=float(product.price)
