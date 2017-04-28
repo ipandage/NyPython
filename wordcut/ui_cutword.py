@@ -86,7 +86,7 @@ class Ui_MainWindow(object):
 
 class Cutword(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self):
-        super(Participle,self).__init__()
+        super(Cutword,self).__init__()
         self.setupUi(self)
         self.setWindowTitle("分词工具")
         self.init()
@@ -112,7 +112,7 @@ class Cutword(QtWidgets.QMainWindow,Ui_MainWindow):
         self.textBrowser.setText(self.filetext)
 
     def cutword(self):
-        jieba.set_dictionary("dict/dict.txt")
+        #jieba.set_dictionary("./dict.txt")
         jieba.initialize()
         if(self.radioButton.isChecked()):
             self.result=jieba.cut(self.filetext,cut_all=True)
