@@ -19,8 +19,8 @@ class HackGeetest():
     def get_captcha_img(self):
         slider_element=self.browser.find_element_by_class_name('gt_slider_knob')
         item=self.browser.find_element_by_class_name('gt_box')
-        screenshot=self.browser.get_screenshot_as_png()
         self.action.click_and_hold(on_element=slider_element).perform()
+        self.action.reset_actions()
         time.sleep(0.3)
         screenshot=self.browser.get_screenshot_as_png()
         left = item.location['x']
@@ -62,14 +62,14 @@ class HackGeetest():
     def drag_and_drop_by_offset(self,offset):
         element=self.browser.find_element_by_class_name('gt_slider_knob')
         line=self.get_track(offset)
-        print(line)
-        for x in line:
-            self.action.move_by_offset(x,random.randint(0,5)).perform()
+        for x in line+[2,3,1,1,-2,-2,-3]:
+            self.action.move_by_offset(x,random.randint(-3,3)).perform()
             self.action.reset_actions()
-            time.sleep(random.randint(1,500)/1000)
+            time.sleep(random.randint(20,150)/1000)
         self.action.release().perform()
         time.sleep(2)
         screenshot=self.browser.get_screenshot_as_png()
+        #结果
         img=Image.open(BytesIO(screenshot))
         img.show()
 
