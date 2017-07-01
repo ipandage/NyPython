@@ -20,26 +20,17 @@
 爬取ipcn,西刺代理，开心代理，米扑代理等网站的免费代理，筛选出可用的代理ip
 获取地址:http://nyloner.cn/proxy
 
-##### 7.labelword
-将txt文档转成html，并用不同颜色标记不同词频的单词
-
-##### 8.labelnovel
-不同颜色标注小说人物
-
-##### 9.NeuralNetworks
+##### 7.NeuralNetworks
 神经网络实现字符识别
 
-##### 10.NyGit
-GitHub小助手
-
-##### 11.yuedu.163
+##### 8.yuedu.163
 获取网易云阅读图书，并转成pdf文档
 
-##### 12.baidumap
+##### 9.baidumap
 百度地图关键词搜索抓取
 
-##### 13.PhoneShop
-手机报价
-
-##### 14.proc
+##### 10.proc
 Linux资源管理器
+
+##### 11.Geetest
+极验滑动验证码破解
