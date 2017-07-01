@@ -1,6 +1,7 @@
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import time
 import logging
 from PIL import Image
@@ -9,7 +10,9 @@ import random
 
 class HackGeetest():
     def __init__(self):
-        self.browser=webdriver.PhantomJS('./phantomjs')
+        desired_capabilities = dict(DesiredCapabilities.PHANTOMJS)
+        desired_capabilities["phantomjs.page.settings.userAgent"] = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36')
+        self.browser=webdriver.PhantomJS('./phantomjs',desired_capabilities=desired_capabilities)
         #self.browser=webdriver.Chrome('./chromedriver')
         self.browser.maximize_window()
         self.browser.implicitly_wait(10)
@@ -35,6 +38,7 @@ class HackGeetest():
         captcha=self.get_captcha_img()
         captcha.show()
         image=captcha.convert('L')
+        flag=0
         for x in range(60,image.size[0]):
             sum_pix=0
             for y in range(image.size[1]):
@@ -43,7 +47,14 @@ class HackGeetest():
                     sum_pix+=1
             print(x,sum_pix)
             if sum_pix>self.threshold:
-                return x
+                return x-flag
+            if sum_pix==0:
+                flag=0
+            else:
+                flag+=1
+            if flag>4:
+                return x-flag
+
         return -1
 
     def load_page(self,url):
@@ -59,17 +70,19 @@ class HackGeetest():
             line.append(1)
         return line
 
-    def drag_and_drop_by_offset(self,offset):
+    def slide_by_offset(self,offset):
         element=self.browser.find_element_by_class_name('gt_slider_knob')
         line=self.get_track(offset)
-        for x in line+[2,3,1,1,-2,-2,-3]:
-            self.action.move_by_offset(x,random.randint(-3,3)).perform()
+        for x in line:
+            self.action.move_by_offset(x,random.randint(-5,3)).perform()
             self.action.reset_actions()
-            time.sleep(random.randint(20,150)/1000)
+            time.sleep(random.randint(2,15)/100)
         self.action.release().perform()
         time.sleep(2)
+        gt_info_text=self.browser.find_element_by_class_name('gt_info_text').text
+        print(gt_info_text)
+
         screenshot=self.browser.get_screenshot_as_png()
-        #结果
         img=Image.open(BytesIO(screenshot))
         img.show()
 
@@ -78,10 +91,11 @@ class HackGeetest():
 
 if __name__=='__main__':
     geetest=HackGeetest()
-    geetest.load_page('https://pt.whu.edu.cn/portal.php')
+    url='https://pt.whu.edu.cn/portal.php'
+    #url='https://www.guahao.com/register/mobile?target=%2F'
+    geetest.load_page(url)
     time.sleep(2)
     offset=geetest.cal_slider_offset()
     if offset!=-1:
-        geetest.drag_and_drop_by_offset(offset-5)
-        time.sleep(20)
+        geetest.slide_by_offset(offset-5)
         geetest.quit()
