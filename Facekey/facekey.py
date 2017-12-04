@@ -12,6 +12,8 @@ CLIENT_ID = ''
 SEC_KEY = ''
 # 匹配的图像地址
 FACE_IMAGE_PATH = './image.jpg'
+# TEMP Image 地址
+TEMP_IMAGE_PATH = './temp.jpeg'
 
 
 class FaceKey():
@@ -27,7 +29,7 @@ class FaceKey():
         self.not_match_num = 0
 
     def face_match(self):
-        result = face_match('./temp.png', FACE_IMAGE_PATH, self.token)
+        result = face_match(TEMP_IMAGE_PATH, FACE_IMAGE_PATH, self.token)
         print(time.strftime('%Y-%m-%s %H:%M:%S'), 'FaceKey:', result)
         if result['result_num'] == 0:
             self.not_match_num += 1
@@ -57,7 +59,8 @@ class FaceKey():
         while True:
             ret, frame = self.capture.read()
             image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            image.save('temp.png')
+            image.thumbnail((400, 300))
+            image.save(TEMP_IMAGE_PATH, format='jpeg')
             self.face_match()
             #cv2.imshow('frame', frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
