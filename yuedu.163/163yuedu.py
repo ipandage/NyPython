@@ -1,3 +1,5 @@
+#coding:utf8
+
 import requests
 import json
 import json
@@ -5,7 +7,9 @@ from bs4 import BeautifulSoup
 import base64
 import time
 import pdfkit
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 headers = {
     'Host':"yuedu.163.com",
@@ -87,7 +91,17 @@ def html2pdf(html,filename):
 
 if __name__ == '__main__':
     books=book_list('http://yuedu.163.com/book/category/category/800/1_0_1')
-    for book in books:
-        book=get_book(book['bookid'])
-        download(book)
-        print(book['title'],'ok')
+
+    book = get_book(books[1]['bookid'])
+    print book
+    download(book)
+    print(book['title'], 'ok')
+
+    # for book in books:
+    #     book=get_book(book['bookid'])
+    #     print book
+    #     download(book)
+    #     print(book['title'],'ok')
+
+
+# 需要安装 https://wkhtmltopdf.org/downloads.html

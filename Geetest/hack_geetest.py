@@ -12,6 +12,7 @@ class HackGeetest():
     def __init__(self):
         desired_capabilities = dict(DesiredCapabilities.PHANTOMJS)
         desired_capabilities["phantomjs.page.settings.userAgent"] = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36')
+        # PhantomJS 无界面浏览器
         self.browser=webdriver.PhantomJS('./phantomjs',desired_capabilities=desired_capabilities)
         #self.browser=webdriver.Chrome('./chromedriver')
         self.browser.maximize_window()
